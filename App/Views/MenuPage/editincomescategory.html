@@ -15,7 +15,7 @@
 					<a class="nav-link" href="/menuPage/start"><i class="icon-home mr-2"></i>Strona główna</a>
 				</li>
 					
-				<li class="col-lg-2 nav-item active">
+				<li class="col-lg-2 nav-item">
 					<a class="nav-link" href="/menuPage/income"><i class="icon-money mr-2"></i>Dodaj przychód</a>
 				</li>
 					
@@ -36,7 +36,7 @@
 					</div>
 				</li>
 					
-				<li class="col-lg-2 nav-item dropdown">
+				<li class="col-lg-2 nav-item dropdown active">
 					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Ustawienia</a>
 					
 					<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
@@ -58,55 +58,26 @@
 {% endblock %}
 
 {% block body %}
-	<section class="mx-auto px-3">
-		{% for message in flash_messages %}
+
+<section class="mx-auto px-2">
+    {% for message in flash_messages %}
 		
 		<div class="alert alert-{{ message.type }} mt-4 mx-auto col-12 col-sm-10 col-md-6 col-lg-4"> 
 		{{ message.body }}
 		</div>
-		{% endfor %}
-			<div class="row">
-				<div class="addoperation text-center mx-auto my-5 pt-4 bg-white col-sm-10 col-md-7 col-lg-5 ">
-					<h4 class="font-weight-bold">DODAJ PRZYCHÓD</h4>
+	{% endfor %}
+		<div class="row">
+			<div class="addoperation text-center mx-auto my-5 py-4 bg-white col-sm-10 col-md-4 ">
+					<h4 class="mt-2 mb-5 font-weight-bold">USTAWIENIA</h4>
+					<h5 class="mt-5 mb-3">KATEGORIE PRZYCHODÓW</h5>
 					
-					<form action="/menuPage/incomeCreate" method="post">
-					
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text ">Kwota</span>
-								<input class="form-control" type="number" name="amount" step="0.01" value="" required="">
-							</div>
-							
-							<div class="input-group-prepend mt-3">
-								<span class="input-group-text ">Data</span>
-								<input class="form-control" type="date" name="date" value="" required="">
-							</div>
-							<div class="input-group-prepend mt-3">
-								<span class="input-group-text ">Kategoria</span>
-									<select class="form-control" name="category" required="">
-										<option value="" disabled="" selected="" hidden="">wybierz kategorię</option>
-										<option>wynagrodzenie</option>
-										<option>odsetki</option>
-										<option>sprzedaż na Allegro</option>
-										<option>inna</option>
-									</select>
-							</div>
-							<div class="input-group-prepend mt-3">
-								<span class="input-group-text ">Komentarz <br>(opcjonalnie) </span>
-								<textarea class="form-control" name="comment" maxlength="100" rows="4"></textarea>
-							</div>
-							<div class="mt-4 mx-auto">	
-								<button class="btn mr-4 col-5" type="submit">	
-									Dodaj
-								</button>
-								<button class="btn submitbutton col-5">
-									Anuluj
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</section>
-
+					<div class="input-group col-sm-12 col-lg-10 col-xl-8 mx-auto">
+						<input class="form-control" id="currentName"type="text" value= "{{ current_user.incomes_category_assigned_to_user.name }}" disabled>
+					</div>
+						
+                       <a class ='submitregistration mt-5' href="/menuPage/edituserdata">Edytuj</a>
+                        
+            </div>
+        </div>
+</section>
 {% endblock %}

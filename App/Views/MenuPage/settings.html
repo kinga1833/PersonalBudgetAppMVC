@@ -36,8 +36,17 @@
 					</div>
 				</li>
 					
-				<li class="col-lg-2 nav-item active">
-					<a class="nav-link" href="/menuPage/settings"><i class="icon-cog mr-2"></i>Ustawienia</a>
+				<li class="col-lg-2 nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Przeglądaj bilans</a>
+					
+					<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+					
+						<a class="dropdown-item" href="/menuPage/userdata">dane użytkownika</a>
+						<a class="dropdown-item" href="/menuPage/incomescategory">kategorie przychodów</a>
+						<a class="dropdown-item" href="/menuPage/expensescategory">kategorie wydatków</a>
+						<a class="dropdown-item" href="/menuPage/paymentmethods">kategorie metod płatności</a>
+					
+					</div>
 				</li>
 					
 				<li class="col-lg-2 mr-1 nav-item">
@@ -52,21 +61,21 @@
 
 <section class="mx-auto px-2">
 		<div class="row">
-			<div class="addoperation text-center mx-auto my-5 py-4 bg-white col-sm-10 col-md-7 ">
+			<div class="addoperation text-center mx-auto my-5 py-4 bg-white col-sm-10 col-md-5 ">
 					<h4 class="mt-2 mb-5 font-weight-bold">USTAWIENIA</h4>
 					<h5 class="mt-5 mb-3">DANE UŻYTKOWNIKA</h5>
 					
 					<label class="text-left">imię</label>
 					<div class="input-group col-sm-12 col-lg-10 col-xl-8 mx-auto">
-						<input class="form-control" value="" disabled>
+						<input class="form-control" id="currentName"type="text" value= "{{ current_user.username }}" disabled>
 							<div class="input-group-append">
 								<button class="btn ml-1" type="button" ><i class="icon-pencil"></i></button>
-								</div>
+							</div>
 					</div>
 						
 					<label>e-mail</label>
 					<div class="input-group col-sm-12 col-lg-10 col-xl-8 mx-auto">
-							<input class="form-control" value="" disabled>
+							<input class="form-control" value="{{ current_user.email }}" disabled>
 								<div class="input-group-append">
 									<button class="btn ml-1" type="button" ><i class="icon-pencil"></i></button>
 								</div>

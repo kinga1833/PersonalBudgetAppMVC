@@ -30,7 +30,7 @@ class Mail
 					$Mail->Port = 465; 
 					$Mail->CharSet = 'UTF-8';
 					$Mail->Username = 'kinkow31@gmail.com';
-					$Mail->Password = 'xxx';
+					$Mail->Password = 'lpiyeiymsmktosbc';
 					$Mail->Encoding = '8bit';
 					$Mail->ContentType = 'text/html; charset=utf-8\r\n';
 					$Mail->From = "kinkow31@gmail.com";

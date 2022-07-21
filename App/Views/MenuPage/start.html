@@ -36,8 +36,17 @@
 					</div>
 				</li>
 					
-				<li class="col-lg-2 nav-item">
-					<a class="nav-link" href="/menuPage/settings"><i class="icon-cog mr-2"></i>Ustawienia</a>
+				<li class="col-lg-2 nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Ustawienia</a>
+					
+					<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+					
+						<a class="dropdown-item" href="/menuPage/userdata">dane użytkownika</a>
+						<a class="dropdown-item" href="/menuPage/incomescategory">kategorie przychodów</a>
+						<a class="dropdown-item" href="/menuPage/expensescategory">kategorie wydatków</a>
+						<a class="dropdown-item" href="/menuPage/paymentmethods">kategorie metod płatności</a>
+					
+					</div>
 				</li>
 					
 				<li class="col-lg-2 mr-1 nav-item">
@@ -56,7 +65,7 @@
 		<div class="alert alert-{{ message.type }} mt-4 mx-auto col-12 col-sm-10 col-md-6 col-lg-4"> 
 		{{ message.body }}
 		</div>
-		{% endfor %}
+	{% endfor %}
 		<div class="row justify-content-around align-self-center">
 		
 			<figure>

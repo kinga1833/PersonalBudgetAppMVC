@@ -36,8 +36,17 @@
 					</div>
 				</li>
 					
-				<li class="col-lg-2 nav-item">
-					<a class="nav-link" href="/menuPage/settings"><i class="icon-cog mr-2"></i>Ustawienia</a>
+				<li class="col-lg-2 nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Ustawienia</a>
+					
+					<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+					
+						<a class="dropdown-item" href="/menuPage/userdata">dane użytkownika</a>
+						<a class="dropdown-item" href="/menuPage/incomescategory">kategorie przychodów</a>
+						<a class="dropdown-item" href="/menuPage/expensescategory">kategorie wydatków</a>
+						<a class="dropdown-item" href="/menuPage/paymentmethods">kategorie metod płatności</a>
+					
+					</div>
 				</li>
 					
 				<li class="col-lg-2 mr-1 nav-item">
@@ -49,6 +58,44 @@
 {% endblock %}
 
 {% block body %}
-	
+<section class="mx-auto px-2">
+	<div class="row">
+		<div class="addoperation text-center py-4 my-5 mx-auto bg-white col-md-10 col-lg-8">
+			<h4 class="font-weight-bold">PRZEGLĄDAJ BILANS</h4>
+			<p>Bieżący miesiąc<p>
+			<div class="table1 col-md-8 mt-3 mx-auto">
+				<table>
+					<thead>
+						<tr>
+							<th class="tabletitle" colspan="4">PRZYCHODY</th>
+							{% for loadIncomes in currentMonthIncomes %}
+							{{ loadIncomes.name }}
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+						
+				</table>
+			</div>
+			<div class="table1 col-md-8 mt-5 mx-auto">
+				<table>
+					<thead>
+						<tr>
+							<th class="tabletitle" colspan="4">WYDATKI</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td class="tablesubtitle">Data</td><td class="tablesubtitle">Kategoria</td><td class="tablesubtitle">Komentarz</td><td class="tablesubtitle">Kwota</td></tr>
+
+						
+				</table>
+			</div>
+			<p class="h2 font-weight-bold my-3">BILANS:</p>
+		</div>
+	</div>
+</section>
+
 
 {% endblock %}

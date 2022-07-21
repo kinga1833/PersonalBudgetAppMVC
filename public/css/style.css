@@ -451,3 +451,15 @@ h5
 {
 	text-decoration: none;
 }
+a.submitregistration
+{
+	text-decoration: none;
+	letter-spacing: 1;
+	color: #060d57;
+}
+.emptyfield
+{
+	color: #060d57;
+	font-size: 15px;
+
+}

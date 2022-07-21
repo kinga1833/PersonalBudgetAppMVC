@@ -67,8 +67,14 @@ class User extends \Core\Model
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
-            
-            return $stmt->execute();			
+
+            if ($stmt->execute())
+            {
+                $user = static::findByEmail($this->email);
+                self::copyTables($user->id);
+                return true; 
+            }
+            return false; 			
         }
 
         return false;
@@ -90,13 +96,9 @@ class User extends \Core\Model
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
             $this->e_email = 'Podaj poprawny adres e-mail';
         }
-		
-		if ($this->emailExists($this->email)) {
-			$this->e_email = 'Podany adres email istnieje w bazie';
-		}
-        //if (static::emailExists($this->email, $this->id ?? null)) {
-           // $this->errors[] = 'email already taken';
-        //}
+        if (static::emailExists($this->email, $this->id ?? null)) {
+            $this->e_email = 'Podany adres email istnieje w bazie';
+        }
 
         // Password
         if (isset($this->password)) {
@@ -127,7 +129,7 @@ class User extends \Core\Model
      *
      * @return boolean  True if a record already exists with the specified email, false otherwise
      */
-	protected function emailExists($email)
+	/*protected function emailExists($email)
 	{
 		$sql ='SELECT * FROM users WHERE email = :email';
 		
@@ -138,9 +140,9 @@ class User extends \Core\Model
 		$stmt->execute();
 		
 		return $stmt ->fetch() !== false;
-	}
+	}*/
 	
-    /*public static function emailExists($email, $ignore_id = null)
+    public static function emailExists($email, $ignore_id = null)
     {
         $user = static::findByEmail($email);
 
@@ -151,7 +153,7 @@ class User extends \Core\Model
         }
 
         return false;
-    }*/
+    }
 
     /**
      * Find a user model by email address
@@ -424,43 +426,33 @@ class User extends \Core\Model
         $stmt->execute();
     }
     
-    /**
-     * Update the user's profile
-     *
-     * @param array $data Data from the edit profile form
-     *
-     * @return boolean  True if the data was updated, false otherwise
-     */
-    public function updateProfile($data)
+    public function updateUserData($data)
     {
-        $this->name = $data['name'];
+        $this->name = $data['username'];
         $this->email = $data['email'];
 
-        // Only validate and update the password if a value provided
-        if ($data['password'] != '') {
-            $this->password = $data['password'];
+        if ($data['password'] != '' & $data['password_confirmation'] !='' ) {
+             $this->password = $data['password'];
+             $this->password_confirmation = $data['password_confirmation'];
         }
 
         $this->validate();
 
-        if (empty($this->errors)) {
+        if (empty($this->e_name) & empty($this->e_password) & empty($this->e_email) & empty($this->e_password_confirm)){
 
-            $sql = 'UPDATE users
-                    SET name = :name,
+            $sql = 'UPDATE users 
+                    SET username = :username, 
                         email = :email';
 
-            // Add password if it's set
-            if (isset($this->password)) {
-                $sql .= ', password_hash = :password_hash';
-            }
-
-            $sql .= "\nWHERE id = :id";
-
+                    if (isset($this->password)) {
+                        $sql .=', password_hash = :password_hash';
+                    }
+                    $sql .= "\nWHERE id = :id";
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+            $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
 
@@ -473,8 +465,67 @@ class User extends \Core\Model
             }
 
             return $stmt->execute();
-        }
 
+        }
         return false;
     }
+    public function copyTables($id)
+    {
+        self::copyIncomesCategoryTable($id);
+        self::copyExpensesCategoryTable( $id);
+        self::copyPaymentMethodsCategoryTable($id);
+
+    }
+    private function copyIncomesCategoryTable( $id)
+    {
+        $sql = "INSERT INTO incomes_category_assigned_to_users(id, name, user_id) SELECT NULL, 
+        incomes_category_default.name, $id FROM incomes_category_default";
+
+        self::dbconnection($sql);
+    }
+    private function copyExpensesCategoryTable( $id)
+    {
+        $sql = "INSERT INTO expenses_category_assigned_to_users(id, name, user_id) SELECT NULL, expenses_category_default.name, $id FROM expenses_category_default";
+
+        self::dbconnection($sql);
+    }
+
+    private function copyPaymentMethodsCategoryTable($id)
+    {
+        $sql ="INSERT INTO payment_methods_assigned_to_users(id, name, user_id) SELECT NULL, payment_methods_default.name, $id FROM payment_methods_default ";
+
+        self::dbconnection($sql);
+    }
+    private function dbconnection($sql)
+    {
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+    }
+
+    public static function getIncomesCategory($id)
+    {
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id = "$id"';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+        
+    }
+    /*public function addNewIncome()
+    {
+        $sql = "INSERT INTO incomes VALUES (:user_id, :income_category_assigned_to_user_id, :amount, :date_of_income, :income_comment)";
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':income_category_assigned_to_user_id', $this->, PDO::PARAM_STR);
+            $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+            $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+
+            if ($stmt->execute())
+    }*/
 }
