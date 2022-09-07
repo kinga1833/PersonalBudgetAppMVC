@@ -20,7 +20,7 @@ class Income extends \Core\Model
     }
     public function save()
     {
-        $incomeCategoryAssignedToUserId = static::findCategoryAssignedToUserId($this->category);
+        $incomeCategoryAssignedToUserId = static::getIncomeCategoryAssignedToUser($this->incomecategory);
         $user_id = $_SESSION['id'];
 
         $sql = 'INSERT INTO incomes (user_id, income_category_assigned_to_user_id, amount, date_of_income, income_comment) VALUES (:user_id, :income_category_assigned_to_user_id, :amount, :date_of_income, :income_comment)';
@@ -37,7 +37,7 @@ class Income extends \Core\Model
         return $stmt->execute();
 
     }
-    public static function findCategoryAssignedToUserId($categoryName){
+    public static function getIncomeCategoryAssignedToUser($categoryName){
 
         $user_id = $_SESSION['id'];
         
@@ -54,25 +54,5 @@ class Income extends \Core\Model
         $stmt->execute();
 
         return $stmt->fetch();
-    }
-    public function loadIncomes ($beginOfPeriod, $endOfPeriod)
-    {
-        $user_id = $_SESSION['id'];
-
-        $sql = "SELECT i.date_of_income, ic.name, i.income_comment, SUM(i.amount) FROM incomes AS i, incomes_category_assigned_to_users AS ic WHERE i.user_id= :user_id AND ic.user_id= :user_id AND ic.id=i.income_category_assigned_to_user_id AND i.date_of_income BETWEEN :beginOfPeriod AND :endOfPeriod GROUP BY income_category_assigned_to_user_id";
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->bindValue(':beginOfPeriod', $beginOfPeriod, PDO::PARAM_STR);
-        $stmt->bindValue(':endOfPeriod', $endOfPeriod, PDO::PARAM_STR);
-
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
-        $stmt->execute();
-
-        return $stmt->fetch();
-
     }
 }

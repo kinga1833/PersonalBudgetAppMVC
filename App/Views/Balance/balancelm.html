@@ -1,0 +1,166 @@
+{% extends 'menubase.html' %}
+
+{% block header %}
+<nav class="navbar mt-4 bg-white navbar-expand-lg">
+				
+	<button class="navbar-toggler my-2 ml-2" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+		<span class="icon-menu-1"></span>
+	</button>
+		
+	<div class="collapse navbar-collapse" id="mainmenu">
+		 
+		<ul class="navbar-nav mx-auto">
+		
+			<li class="col-lg-2 ml-1 nav-item">
+				<a class="nav-link" href="/menuPage/start"><i class="icon-home mr-2"></i>Strona główna</a>
+			</li>
+				
+			<li class="col-lg-2 nav-item">
+				<a class="nav-link" href="/addIncome/income"><i class="icon-money mr-2"></i>Dodaj przychód</a>
+			</li>
+				
+			<li class="col-lg-2 nav-item">
+				<a class="nav-link" href="/addExpense/expense"><i class="icon-shopping-basket mr-2"></i>Dodaj wydatek</a>
+			</li>
+				
+				
+			<li class="col-lg-2 nav-item dropdown active">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Przeglądaj bilans</a>
+				
+				<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+				
+					<a class="dropdown-item" href="/showBalance/balancecm">bieżący miesiąc</a>
+					<a class="dropdown-item" href="/showbalance/balancelm">poprzedni miesiąc</a>
+					<a class="dropdown-item" href="/showbalance/balancecy">bieżący rok</a>
+					<a class="dropdown-item" href="#" data-toggle="modal" data-target="#dateModal">niestandardowy</a>
+				
+				</div>
+			</li>
+				
+			<li class="col-lg-2 nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Ustawienia</a>
+				
+				<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+				
+					<a class="dropdown-item" href="/settings/userdata">dane użytkownika</a>
+					<a class="dropdown-item" href="/settings/incomescategory">kategorie przychodów</a>
+					<a class="dropdown-item" href="/settings/expensescategory">kategorie wydatków</a>
+					<a class="dropdown-item" href="/settings/paymentmethods">kategorie metod płatności</a>
+				
+				</div>
+			</li>
+				
+			<li class="col-lg-2 mr-1 nav-item">
+				<a class="nav-link" href="/logout"><i class="icon-logout mr-2"></i>Wyloguj się</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+{% endblock %}
+
+{% block body %}
+<section class="mx-auto px-2">
+	<div class="row">
+		<div class="addoperation text-center py-4 my-5 mx-auto bg-white col-md-10 col-lg-8">
+			<h4 class="font-weight-bold">PRZEGLĄDAJ BILANS</h4>
+			<p>{{ balance.startDate|date("d.m.Y") }}</span>  -  {{ balance.endDate|date("d.m.Y") }}<p>
+			<div class="table1 col-md-8 mt-3 mx-auto">
+				<table>
+					<thead>
+						<tr>
+							<th class="tabletitle py-2" colspan="3">PRZYCHODY</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tablecategories">
+							<td>Data</td>
+							<td>Kwota</td>
+							<td>Komentarz</td>
+						</tr>
+							
+						{% for summedIncome in balance.groupedIncomes %}
+							<tr>
+								<td class="tablesubtitle py-1 pl-5" colspan="3" >{{ summedIncome['name'] }} &nbsp&nbsp&nbsp&nbsp| &nbsp&nbsp&nbsp {{ summedIncome['amount'] }} PLN</td>
+									
+							</tr>
+							
+							{% for income in balance.detailedIncomes %}
+								{% if income['income_category_assigned_to_user_id'] == summedIncome['income_category_assigned_to_user_id'] %}
+									<tr>
+										<td>{{ income['date_of_income'] }}</td>
+										<td>{{ income['amount'] }} PLN </td>
+										<td>{{ income['income_comment'] }}</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+						<tr>
+                            <td class = "sum py-2" colspan="2">SUMA PRZYCHODÓW</td>
+                            <td class="sumamount">{{ balance.totalIncome }} PLN</td>
+                        </tr>
+					</tbody>
+				</table>
+				
+			</div>
+			<div class="table1 col-md-8 mt-5 mx-auto">
+				<table>
+					<thead>
+						<tr>
+							<th class="tabletitle py-2" colspan="4">WYDATKI</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tablecategories py-1 pl-5">
+							<td>Data</td>
+							<td>Kwota</td>
+							<td>Metoda płatności</td>
+							<td>Komentarz</td>
+						</tr>
+
+						{% for summedExpense in balance.groupedExpenses %}
+							<tr>
+								<td class="tablesubtitle py-1 pl-5" colspan="4" >{{ summedExpense['name'] }}&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp {{ summedExpense['amount'] }} PLN</td>
+									
+							</tr>
+							
+							{% for expense in balance.detailedExpenses %}
+								{% if expense['expense_category_assigned_to_user_id'] == summedExpense['expense_category_assigned_to_user_id'] %}
+									<tr>
+										<td>{{ expense['date_of_expense'] }}</td>
+										<td>{{ expense['amount'] }} PLN </td>
+										<td>{{ expense ['name'] }}</td>
+										<td>{{ expense['expense_comment'] }}</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+						<tr>
+                            <td class = "sum py-2" colspan="3">SUMA WYDATKÓW</td>
+                            <td class="sumamount">{{ balance.totalExpense }} PLN</td>
+                        </tr>
+
+					</tbody>
+						
+				</table>
+			</div>
+			<div class="mt-5">
+                <span class="font-weight-bold my-3">BILANS:</span>&emsp;
+                <span>{{ (balance.totalIncome - balance.totalExpense)| number_format(2, '.', '') }} PLN</span>
+            </div>
+			{% if balance.totalIncome - balance.totalExpense > 0 %}
+            
+            <div class="ml-3 mb-4 text-success" id="result">Gratulacje. Świetnie zarządzasz finansami!</div>
+            
+        {% endif %}
+        
+        {% if balance.totalIncome - balance.totalExpense < 0 %}
+            
+            <div class="ml-3 mb-4 text-danger" id="result">Uważaj, wpadasz w długi!</div>
+            
+        {% endif %}
+        
+		</div>
+	</div>
+</section>
+
+{% endblock %}

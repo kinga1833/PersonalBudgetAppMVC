@@ -40,14 +40,13 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        //\App\Mail::send('kinkow31@gmail.com', 'blokowanie wysyłki  maili przez gmail', 'https://stackoverflow.com/questions/72470777/nodemailer-response-535-5-7-8-username-and-password-not-accepted', '<h1>https://stackoverflow.com/questions/72470777/nodemailer-response-535-5-7-8-username-and-password-not-accepted</h1>');
+         //\App\Mail::send('kinkow31@gmail.com', 'blokowanie wysyłki  maili przez gmail', 'https://stackoverflow.com/questions/72470777/nodemailer-response-535-5-7-8-username-and-password-not-accepted', '<h1>https://stackoverflow.com/questions/72470777/nodemailer-response-535-5-7-8-username-and-password-not-accepted</h1>');
 
-        if (!isset($_SESSION['id'])){
+         if (!isset($_SESSION['id'])){
             View::renderTemplate('Home/index.html');
         }
         else{
             View::renderTemplate('menuPage/start.html');
         }
-        
     }
 }

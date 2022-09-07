@@ -16,41 +16,6 @@ class MenuPage extends Authenticated
     {
         View::renderTemplate('MenuPage/start.html');
     }
-
-	public function incomeAction()
-    {
-		View::renderTemplate('MenuPage/income.html');
-    }
-	public function incomeCreateAction()
-	{
-		$income = new Income($_POST);
-
-		if($income->save())
-		{
-			Flash::addMessage('Przychód został pomyślnie dodany');
-			$this->redirect('/menuPage/income');
-		} else {
-			Flash::addMessage('Nie udało się dodać przychodu, spróbuj ponownie', 'warning');
-			$this->redirect('/menuPage/income');
-		}
-	}
-	public function expenseAction()
-    {
-		View::renderTemplate('MenuPage/expense.html');
-    }
-	public function expenseCreateAction()
-	{
-		$expense = new Expense($_POST);
-
-		if($expense->save())
-		{
-			Flash::addMessage('Wydatek został pomyślnie dodany');
-			$this->redirect('/menuPage/expense');
-		} else {
-			Flash::addMessage('Nie udało się dodać wydatku, spróbuj ponownie', 'warning');
-			$this->redirect('/menuPage/expense');
-		}
-	}
 	
 	// show balance current month
 	public function balancecmAction()

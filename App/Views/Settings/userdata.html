@@ -1,0 +1,90 @@
+{% extends 'menubase.html' %}
+
+{% block header %}
+<nav class="navbar mt-4 bg-white navbar-expand-lg">
+				
+	<button class="navbar-toggler my-2 ml-2" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+		<span class="icon-menu-1"></span>
+	</button>
+		
+	<div class="collapse navbar-collapse" id="mainmenu">
+		 
+		<ul class="navbar-nav mx-auto">
+		
+			<li class="col-lg-2 ml-1 nav-item">
+				<a class="nav-link" href="/menuPage/start"><i class="icon-home mr-2"></i>Strona główna</a>
+			</li>
+				
+			<li class="col-lg-2 nav-item">
+				<a class="nav-link" href="/addIncome/income"><i class="icon-money mr-2"></i>Dodaj przychód</a>
+			</li>
+				
+			<li class="col-lg-2 nav-item">
+				<a class="nav-link" href="/addExpense/expense"><i class="icon-shopping-basket mr-2"></i>Dodaj wydatek</a>
+			</li>
+				
+				
+			<li class="col-lg-2 nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Przeglądaj bilans</a>
+				
+				<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+				
+					<a class="dropdown-item" href="/showBalance/balancecm">bieżący miesiąc</a>
+					<a class="dropdown-item" href="/showbalance/balancelm">poprzedni miesiąc</a>
+					<a class="dropdown-item" href="/showbalance/balancecy">bieżący rok</a>
+					<a class="dropdown-item" href="/showbalance/balancec">niestandardowy</a>
+				
+				</div>
+			</li>
+				
+			<li class="col-lg-2 nav-item dropdown active">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" id="submenu" aria-haspopup="true"><i class="icon-chart-pie mr-2"></i>Ustawienia</a>
+				
+				<div class="dropdown-menu col-lg-12" aria-labelledby="submenu">
+				
+					<a class="dropdown-item" href="/settings/userdata">dane użytkownika</a>
+					<a class="dropdown-item" href="/settings/incomescategory">kategorie przychodów</a>
+					<a class="dropdown-item" href="/settings/expensescategory">kategorie wydatków</a>
+					<a class="dropdown-item" href="/settings/paymentmethods">kategorie metod płatności</a>
+				
+				</div>
+			</li>
+				
+			<li class="col-lg-2 mr-1 nav-item">
+				<a class="nav-link" href="/logout"><i class="icon-logout mr-2"></i>Wyloguj się</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+{% endblock %}
+
+{% block body %}
+
+<section class="mx-auto px-2">
+    {% for message in flash_messages %}
+		
+		<div class="alert alert-{{ message.type }} mt-4 mx-auto col-12 col-sm-10 col-md-6 col-lg-4"> 
+		{{ message.body }}
+		</div>
+	{% endfor %}
+		<div class="row">
+			<div class="addoperation text-center mx-auto my-5 py-4 bg-white col-sm-10 col-md-4 ">
+					<h4 class="mt-2 mb-5 font-weight-bold">USTAWIENIA</h4>
+					<h5 class="mt-5 mb-3">DANE UŻYTKOWNIKA</h5>
+					
+					<label class="text-left">imię</label>
+					<div class="input-group col-sm-12 col-lg-10 col-xl-8 mx-auto">
+						<input class="form-control" id="currentName"type="text" value= "{{ current_user.username }}" disabled>
+					</div>
+						
+					<label>e-mail</label>
+					<div class="input-group col-sm-12 col-lg-10 col-xl-8 mx-auto mb-4">
+							<input class="form-control" value="{{ current_user.email }}" disabled>
+					</div>
+						
+                       <a class ='submitregistration mt-5' href="/menuPage/edituserdata">Edytuj</a>
+                        
+            </div>
+        </div>
+</section>
+{% endblock %}

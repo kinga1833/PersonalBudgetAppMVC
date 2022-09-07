@@ -325,13 +325,30 @@ td, tr, th
 }
 .tabletitle
 {
-	font-size: 20px;
+	font-size: 22px;
 	color: #060d57;
 	background-color: #cda3bc;
 }
 .tablesubtitle
 {
-	font-size:18px;
+	font-size:20px;
+	font-weight: 700;
+	text-align: left;
+}
+.sum 
+{
+	font-size:22px;
+	color: #060d57;
+	font-weight: 700;
+}
+.sumamount
+{
+	font-size:22px;
+	font-weight: 700;
+}
+.tablecategories
+{
+	font-size: 18px;
 	font-weight: 700;
 }
 .row
@@ -461,5 +478,18 @@ a.submitregistration
 {
 	color: #060d57;
 	font-size: 15px;
-
+}
+.submitdate 
+{
+	background-color: #cda3bc;
+	font-size: 20px;
+	font-weight: 700;
+	color: #082e79;
+	border: none;
+	padding: 10px 10px;
+	margin-top: 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	letter-spacing: 2px;
+	text-align: center;
 }
