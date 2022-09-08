@@ -49,7 +49,15 @@ class ShowBalance extends Authenticated
 		$customDate->endDate = $_POST['endDate'];
         $customDate -> getCustomPeriodData();
 
-		View::renderTemplate('Balance/balancecustom.html',  ['balance' => $customDate]);
+		if (empty($customDate->startDate) & empty($customDate->endDate))
+		{
+			Flash::addMessage('Wybierz datę', 'info');
+			View::renderTemplate('Balance/balancec.html');
+		}
+		else{
+			View::renderTemplate('Balance/balancecustom.html',  ['balance' => $customDate]);
+		}
+		
 	}
 }
 	

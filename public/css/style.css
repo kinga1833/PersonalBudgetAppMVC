@@ -349,7 +349,6 @@ td, tr, th
 .tablecategories
 {
 	font-size: 18px;
-	font-weight: 700;
 }
 .row
 {
@@ -398,17 +397,6 @@ h5
 	font-size: 15px;
 	margin-bottom: 10px;
 }
-/*.registersuccesfully
-{
-	text-align: center;
-	color: grey;
-	font-size: 20px;
-	background-color: white;
-	-webkit-box-shadow: 3px 3px 15px 6px grey;
-	-moz-box-shadow: 3px 3px 15px 6px grey;
-	box-shadow: 3px 3px 15px 6px grey;
-	border-radius: 5px;
-}*/
 .beginendperiod
 {
 	text-align: center;
