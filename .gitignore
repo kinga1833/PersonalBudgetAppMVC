@@ -1,2 +1,4 @@
 vendor
-
+Config.php
+logs
+Mail.php
