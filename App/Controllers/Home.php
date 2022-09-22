@@ -46,7 +46,7 @@ class Home extends \Core\Controller
             View::renderTemplate('Home/index.html');
         }
         else{
-            View::renderTemplate('menuPage/start.html');
+            View::renderTemplate('MenuPage/start.html');
         }
     }
 }

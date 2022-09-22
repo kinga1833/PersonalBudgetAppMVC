@@ -26,7 +26,7 @@ class Login extends \Core\Controller
 			
 			Flash::addMessage('Logowanie powiodło się!');
 			
-			$this->redirect('/menuPage/start');
+			$this->redirect('/MenuPage/start');
 			
 		} else {
 			

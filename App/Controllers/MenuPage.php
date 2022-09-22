@@ -91,9 +91,9 @@ class MenuPage extends Authenticated
 
 			Flash::addMessage('Dane zostały zmienione');
 
-			$this->redirect('/menuPage/userdata');
+			$this->redirect('/MenuPage/userdata');
 		} else {
-			View::renderTemplate('menuPage/edituserdata.html', [
+			View::renderTemplate('MenuPage/edituserdata.html', [
 				'user' => $user
 			]);
 		}
